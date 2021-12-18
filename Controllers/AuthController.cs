@@ -37,8 +37,17 @@ namespace KumportAPI.Controllers
         {
             LoginResponseModel response = new LoginResponseModel();
             var user = await userManager.FindByEmailAsync(request.Email);
-            if (user != null && await userManager.CheckPasswordAsync(user, request.Password))
+            if (user != null)
             {
+                var ret = await userManager.CheckPasswordAsync(user, request.Password);
+
+                if (!ret)
+                {
+                    response.IsSuccessful = false;
+                    response.ReturnMessage = "Invalid password";
+                    return StatusCode(StatusCodes.Status500InternalServerError, response);
+                }
+
                 var userRoles = await userManager.GetRolesAsync(user);
 
                 var authClaims = new List<Claim>

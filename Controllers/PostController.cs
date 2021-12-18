@@ -15,7 +15,7 @@ namespace KumportAPI.Controllers
         {
             _postRepository = postRepository;
         }
-
+        [Authorize]
         [HttpGet]
         [Route("posts")]
         public IActionResult Posts()
@@ -24,6 +24,7 @@ namespace KumportAPI.Controllers
             return Ok(_postRepository.Posts());
         }
         
+        [Authorize]
         [HttpPost]
         [Route("add")]
         public IActionResult Add(PostModel request)
