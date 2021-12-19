@@ -2,6 +2,7 @@
 using Kumport.Common.ResponseModels;
 using KumportAPI.Authentication;
 using KumportAPI.Repositories;
+using KumportAPI.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -15,8 +16,11 @@ namespace KumportAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+
+
+
         private readonly UserManager<ApplicationUser> userManager;
-        private IPostRepository _postRepository;      
+        private IPostRepository _postRepository;
         public UserController(UserManager<ApplicationUser> userManager, IPostRepository postRepository)
         {
             this.userManager = userManager;
@@ -27,15 +31,25 @@ namespace KumportAPI.Controllers
         [Route("info")]
         public async Task<IActionResult> UserInfo([FromBody] UserInfoRequestModel request)
         {
+            var validator = new UsersValidator();
+            var logger = NLog.LogManager.GetCurrentClassLogger();
+            var requestId = Request.Headers["Request-Id"];
+            var rep = await validator.ValidateAsync(request);
+            if (!rep.IsValid)
+            {
+                logger.Error("User-Info =>  Request:{}", JsonConvert.SerializeObject(new { Message = rep.Errors, StatusCode = 500, RequestId = requestId }));
+                return StatusCode(StatusCodes.Status500InternalServerError, new { ErrorMessage = rep.Errors });
+
+            }
             var serviceResponse = new UserInfoResponseModel();
             serviceResponse.Posts = new System.Collections.Generic.List<Kumport.Common.Models.PostModel>();
-            var requestId = Request.Headers["Request-Id"];
-            var logger = NLog.LogManager.GetCurrentClassLogger();            
+            
+            
             logger.Info("Auth-UserInfo => Request:{}", JsonConvert.SerializeObject(new { Username = request.Username, RequestId = requestId }));
             var user = await userManager.FindByNameAsync(request.Username);
             if (user == null)
             {
-                logger.Error("Auth-Register =>  Response:{}", JsonConvert.SerializeObject(new { Message = "User info was not found", StatusCode = 500, RequestId = requestId }));
+                logger.Error("User-Info =>  Response:{}", JsonConvert.SerializeObject(new { Message = "User info was not found", StatusCode = 500, RequestId = requestId }));
                 serviceResponse.ReturnMessage = "User info was not found";
                 return StatusCode(StatusCodes.Status500InternalServerError, serviceResponse);
             }
@@ -51,7 +65,7 @@ namespace KumportAPI.Controllers
                 }
 
                 serviceResponse.IsSuccesfull = true;
-                logger.Error("Auth-UserInfo =>  Response:{}", JsonConvert.SerializeObject(new { Message = "", Username = serviceResponse.Username, Email = serviceResponse.Email, StatusCode = 200, RequestId = requestId }));
+                logger.Error("User-Info =>  Response:{}", JsonConvert.SerializeObject(new { Message = "", Username = serviceResponse.Username, Email = serviceResponse.Email, StatusCode = 200, RequestId = requestId }));
                 return Ok(serviceResponse);
             }
         }

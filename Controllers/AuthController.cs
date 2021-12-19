@@ -2,6 +2,7 @@
 using Kumport.Common.ResponseModels;
 using KumportAPI.Authentication;
 using KumportAPI.Logging;
+using KumportAPI.Validators;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +40,13 @@ namespace KumportAPI.Controllers
         {            
             var requestId = Request.Headers["Request-Id"];
             var logger = NLog.LogManager.GetCurrentClassLogger();
+            var validator = new LoginValidator();
+            var reply = await validator.ValidateAsync(request);
+            if (!reply.IsValid)
+            {
+                logger.Error("Auth-Login =>  Request:{}", JsonConvert.SerializeObject(new { Message = reply.Errors, StatusCode = 500, RequestId = requestId, Email = request.Email, Password = HashPassword(request.Password) }));
+                return StatusCode(StatusCodes.Status500InternalServerError, new { ErrorMessage = reply.Errors });
+            }
             logger.Info("Auth-Login => Request:{}", JsonConvert.SerializeObject(new {Email = request.Email, Password = HashPassword(request.Password), Message="",RequestId = requestId }));
             LoginResponseModel response = new LoginResponseModel();
 
@@ -108,7 +116,14 @@ namespace KumportAPI.Controllers
         {
             var requestId = Request.Headers["Request-Id"];
             var logger = NLog.LogManager.GetCurrentClassLogger();
+            var validator = new RegisterValidator();
             var response = new RegisterResponseModel();
+            var reply = await validator.ValidateAsync(request);
+            if (!reply.IsValid)
+            {
+                logger.Error("Auth-Register =>  Request:{}", JsonConvert.SerializeObject(new { Message = reply.Errors, StatusCode = 500, RequestId = requestId, Email = request.Email, Username = request.Username, Password = HashPassword(request.Password) }));
+                return StatusCode(StatusCodes.Status500InternalServerError, new { ErrorMessage = reply.Errors });
+            }
             logger.Info("Auth-Register => Request:{}", JsonConvert.SerializeObject(new { Email = request.Email, Password = HashPassword(request.Password), Username = request.Username,Message="", RequestId = requestId }));
             var userExists = await userManager.FindByEmailAsync(request.Email);
             if (userExists != null)

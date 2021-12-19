@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "pP3bzZdgCT/OHxQp+cFjDFFSdfEX32Pg6rMnQoFwrllo+U9zKZQ2qGtYhzqTfxQWVbnGTvCKxm8Ea1ThhOndAA==",
+  "dgSpecHash": "Q5C2T78AP1zD//VZUuhQdoSt8prmX1A3CMI7l0Hib64Jezwwy2+in9x+lfgxxoUqLgjLFFXL6lV1nL+NnJARtA==",
   "success": true,
   "projectFilePath": "C:\\Users\\emrullah.demir\\source\\repos\\KumportAPI\\KumportAPI.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\emrullah.demir\\.nuget\\packages\\fluentvalidation\\10.3.6\\fluentvalidation.10.3.6.nupkg.sha512",
+    "C:\\Users\\emrullah.demir\\.nuget\\packages\\fluentvalidation.aspnetcore\\10.3.6\\fluentvalidation.aspnetcore.10.3.6.nupkg.sha512",
+    "C:\\Users\\emrullah.demir\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.3.6\\fluentvalidation.dependencyinjectionextensions.10.3.6.nupkg.sha512",
     "C:\\Users\\emrullah.demir\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\emrullah.demir\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
     "C:\\Users\\emrullah.demir\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

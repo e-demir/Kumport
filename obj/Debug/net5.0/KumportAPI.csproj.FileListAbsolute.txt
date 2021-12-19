@@ -71,3 +71,6 @@ C:\Users\emrullah.demir\source\repos\KumportAPI\obj\Debug\net5.0\KumportAPI.dll
 C:\Users\emrullah.demir\source\repos\KumportAPI\obj\Debug\net5.0\ref\KumportAPI.dll
 C:\Users\emrullah.demir\source\repos\KumportAPI\obj\Debug\net5.0\KumportAPI.pdb
 C:\Users\emrullah.demir\source\repos\KumportAPI\obj\Debug\net5.0\KumportAPI.genruntimeconfig.cache
+C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\FluentValidation.dll
+C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\FluentValidation.AspNetCore.dll
+C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\FluentValidation.DependencyInjectionExtensions.dll
