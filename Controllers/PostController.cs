@@ -1,7 +1,9 @@
-﻿using KumportAPI.Post;
+﻿using Kumport.Common.RequestModels;
 using KumportAPI.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
 
 namespace KumportAPI.Controllers
 {
@@ -18,18 +20,27 @@ namespace KumportAPI.Controllers
         [Authorize]
         [HttpGet]
         [Route("posts")]
-        public IActionResult Posts()
-        
+        public IActionResult Posts()        
         {
-            return Ok(_postRepository.Posts());
+            var token = Request.Headers["Authorization"];
+            var requestId = Request.Headers["Request-Id"];
+            var logger = NLog.LogManager.GetCurrentClassLogger();
+            logger.Info("Post-Posts => Request:{}", JsonConvert.SerializeObject(new { Token = token, RequestId = requestId}));
+            return Ok( _postRepository.Posts());
         }
         
         [Authorize]
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(PostModel request)
+        public async Task<IActionResult> Add([FromBody] AddPostRequestModel request)
         {
-            return Ok(_postRepository.Add(request));
+
+            var token = Request.Headers["Authorization"];
+            var requestId = Request.Headers["Request-Id"];
+            var logger = NLog.LogManager.GetCurrentClassLogger();
+            logger.Info("Post-Add => Request:{}", JsonConvert.SerializeObject(new { Token = token, RequestId = requestId, PostOwner=request.PostOwner }));
+
+            return Ok(await _postRepository.Add(request));
         }
 
 

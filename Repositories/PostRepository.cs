@@ -1,6 +1,9 @@
-﻿using KumportAPI.Post;
+﻿using Kumport.Common.RequestModels;
+using Kumport.Common.ResponseModels;
+using KumportAPI.Post;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace KumportAPI.Repositories
 {
@@ -12,24 +15,54 @@ namespace KumportAPI.Repositories
             _context = context;
         }
 
-        public PostModel Add(PostModel request)
+        public async Task<AddPostResponseModel> Add(AddPostRequestModel request)
         {
-
-            _context.Posts.AddAsync(request);
-            _context.SaveChangesAsync();           
-
-            return new PostModel();
+            var postModel = new PostModel();
+            postModel.PostOwner = request.PostOwner;
+            postModel.PostTitle = request.PostTitle;
+            postModel.Image = request.Image;
+            postModel.CreatedOn = request.CreatedOn;
+            await _context.Posts.AddAsync(postModel);
+            await _context.SaveChangesAsync();
+            return new AddPostResponseModel();
         }
 
-        public List<PostModel> Posts()
+        public PostsResponseModel Posts()
         {
             var posts = _context.Posts.ToList();
+            var response = new PostsResponseModel();
+            response.Posts = new List<Kumport.Common.Models.PostModel>();
+            foreach (var item in posts)
+            {
+                var post = new Kumport.Common.Models.PostModel();
+                post.CreatedOn = item.CreatedOn;
+                post.Image = item.Image;
+                post.PostTitle = item.PostTitle;
+                post.PostOwner = item.PostOwner;
+                response.Posts.Add(post);
+            }
+            return response;
+        }
 
-            return posts;
-
-            
-
-
+        public UserPostsResponseModel UserPosts(UserPostsRequestModel request)
+        {
+            UserPostsResponseModel response = new UserPostsResponseModel();
+            response.Posts = new List<Kumport.Common.Models.PostModel>();
+            var posts = _context.Posts.Where(x => x.PostOwner == request.Username);
+            if (posts!=null && posts.Count() > 0)
+            {
+                foreach (var item in posts)
+                {
+                    var post = new Kumport.Common.Models.PostModel();
+                    post.CreatedOn = item.CreatedOn;
+                    post.FileType = item.FileType;
+                    post.Image = item.Image;
+                    post.PostOwner = item.PostOwner;
+                    post.PostTitle = item.PostTitle;
+                    response.Posts.Add(post);
+                }
+            }
+            return response;            
         }
     }
 }

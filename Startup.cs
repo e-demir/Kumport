@@ -1,4 +1,5 @@
 using KumportAPI.Authentication;
+using KumportAPI.Logging;
 using KumportAPI.Post;
 using KumportAPI.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using NLog;
+using System.IO;
 using System.Text;
 
 namespace KumportAPI
@@ -20,6 +23,7 @@ namespace KumportAPI
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            LogManager.LoadConfiguration(System.String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
         }
 
         public IConfiguration Configuration { get; }
@@ -29,6 +33,9 @@ namespace KumportAPI
         {
 
             services.AddControllers();
+
+            services.AddSingleton<ILog, LogNLog>();
+
             services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));
 
             services.AddDbContextPool<PostDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnStr")));

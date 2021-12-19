@@ -1,12 +1,17 @@
-﻿using KumportAPI.Post;
+﻿using Kumport.Common.RequestModels;
+using Kumport.Common.ResponseModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KumportAPI.Repositories
 {
     public interface IPostRepository
     {
-        List<PostModel> Posts();
+        PostsResponseModel Posts();
 
-        PostModel Add(PostModel post);
+        Task<AddPostResponseModel> Add(AddPostRequestModel request);
+        UserPostsResponseModel UserPosts(UserPostsRequestModel request);
+
+
     }
 }

@@ -1,3 +1,4 @@
+C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\nlog.config
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\appsettings.json
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\KumportAPI.exe
@@ -29,6 +30,9 @@ C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\Microsoft.Ident
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\NLog.dll
+C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\NLog.Extensions.Logging.dll
+C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\NLog.Web.AspNetCore.dll
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\emrullah.demir\source\repos\KumportAPI\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
